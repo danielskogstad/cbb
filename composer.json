@@ -40,10 +40,6 @@
         ]
     },
     "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/danielskogstad/bnetlib"
-        }
     ],
     "config": {
         "bin-dir": "bin"
