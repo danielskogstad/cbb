@@ -1,0 +1,7 @@
+parameters:
+#    wo_w.example.class: Skogstadmedia\Bundle\WoWBundle\Example
+
+services:
+#    wo_w.example:
+#        class: %wo_w.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

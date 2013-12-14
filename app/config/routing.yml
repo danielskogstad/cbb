@@ -1,0 +1,4 @@
+wo_w:
+    resource: "@WoWBundle/Resources/config/routing.yml"
+    prefix:   /
+
