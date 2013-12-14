@@ -1,0 +1,6 @@
+.DS_Store
+vendor
+web/bundles
+web/css
+web/js
+web/images
