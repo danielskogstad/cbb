@@ -1,5 +1,0 @@
-_assetic:
-    resource: .
-    type: assetic
-_app:
-    resource: /Users/daniel/Sites/cbb/app/config/routing_dev.yml
