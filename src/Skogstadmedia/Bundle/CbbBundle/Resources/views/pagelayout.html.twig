@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    {% block meta_description %}
+        <meta content="" name="description">
+    {% endblock %}
+    {% block favicon %}
+        {#% image '@CbbBundle/Resources/public/images/ico/favicon.png' %}
+            <link href="{{ asset_url }}" rel="shortcut icon">
+        {% endimage %#}
+    {% endblock %}
+    {% block title %}
+        <title>CrimsonBattleBunnies</title>
+    {% endblock title %}
+    
+    {% include 'CbbBundle::pageassets_top.html.twig' %}
+</head>
+<body>
+    <header id="header">
+        <div class="navbar navbar-inverse navbar-fixed-top" id="nav">
+            <div class="ribbon-top"></div>
+            <div class="container">
+                <div class="navbar-header">
+                    <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">
+                        {% image '@CbbBundle/Resources/public/images/logo.png' %}
+                            <img alt="CrimsonBattleBunnies" src="{{ asset_url }}">
+                        {% endimage %}
+                    </a>
+                </div>
+                
+                <div class="navbar-collapse collapse">
+                    {% block navigation %}
+                        {{ render(controller('CbbBundle:Content:mainMenu')) }}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    {% block slider %}{% endblock %}
+    
+    <div id="wrapper-content">
+        {% block content %}{% endblock %}
+    </div>
+    
+    <footer id="footer">
+    
+    </footer>
+    
+    {% include 'CbbBundle::pageassets_bottom.html.twig' %}
+</body>
+</html>

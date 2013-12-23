@@ -1,0 +1,37 @@
+{% for raid in progress %}
+    <div class="categories">
+        <div class="header">
+            <span style="color:#2ac0ff">PROGRESS //</span>
+            <a href="#">{{ raid.name }}</a>
+        </div>
+        <ul>
+        {% for boss in raid.bosses %}
+            <li class="boss {% if boss.heroicKills is defined %}{% if boss.heroicKills > 0 %}heroic{% endif %}{% endif %}{% if boss.normalKills is defined %}{% if boss.normalKills > 0 %}normal{% endif %}{% endif %}">
+                <a href="#" class="bossDetails tooltip" title="<div style='width:130px;height:100px;'><img src='{{ bossImage(boss.name) }}' onerror='$(this).hide()' style='border-bottom:2px solid #333;' />
+                    <span style='font-size:10px;'> 
+                    {% if boss.normalKills is defined %}
+                        <strong>Normal kill:</strong>
+                        {% if boss.normalKills > 0 %}
+                            {{ (boss.normalTimestamp/1000)|date("d.m.Y") }}<br />
+                        {% else %}
+                            N/A <br />
+                        {% endif %}
+                    {% endif %}
+                    {% if boss.heroicKills is defined %}
+                        <strong>Heroic kill:</strong>
+                        {% if boss.heroicKills > 0 %}
+                            {{ (boss.heroicTimestamp/1000)|date("d.m.Y") }} <br />
+                        {% else %}
+                            N/A <br />
+                        {% endif %}
+                    {% endif %}
+                    </span>
+                ">  
+                    {{ boss.name }}
+                    {% if boss.heroicKills is defined %}{% if boss.heroicKills > 0 %}{% image '@CbbBundle/Resources/public/images/heroic.gif' %}<img src="{{ asset_url }}" style="height:12px;margin-left:5px;" alt="heroic" />{% endimage %}{% endif %}{% endif %} 
+                </a>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endfor %}

@@ -1,0 +1,12 @@
+parameters:
+#    cbb.example.class: Skogstadmedia\Bundle\CbbBundle\Example
+    guild.realm: Stormreaver
+
+services:
+#    cbb.example:
+#        class: %cbb.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+    cbb.twig.bossimage:
+        class: Skogstadmedia\Bundle\CbbBundle\Twig\BossImageExtension
+        tags:
+            - { name: twig.extension }

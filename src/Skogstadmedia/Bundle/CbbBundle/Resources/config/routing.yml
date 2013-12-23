@@ -1,0 +1,3 @@
+cbb_homepage:
+    pattern: /
+    defaults: { _controller: CbbBundle:Page:index }

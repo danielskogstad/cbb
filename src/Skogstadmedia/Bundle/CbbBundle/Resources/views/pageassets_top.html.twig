@@ -1,0 +1,20 @@
+{% stylesheets output='css/all.css' 
+    '@CbbBundle/Resources/public/css/bootstrap.css'
+    '@CbbBundle/Resources/public/css/style.css'
+    '@CbbBundle/Resources/public/css/elements.css'
+    '@CbbBundle/Resources/public/css/animate.css'
+    '@CbbBundle/Resources/public/css/font-awesome.css'
+    'http://fonts.googleapis.com/css?family=Roboto:400,500,700,900'
+    'http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900'
+%}
+     <link href="{{ asset_url }}" rel="stylesheet" />
+{% endstylesheets %}
+
+
+{% javascripts output='js/ie9.js' 
+    'http://html5shim.googlecode.com/svn/trunk/html5.js'
+%}
+<!--[if lt IE 9]>
+	<script src="{{ asset_url }}"></script>
+<![endif]-->
+{% endjavascripts %}

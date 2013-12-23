@@ -17,6 +17,9 @@
       <parameter key="DoctrineBundle">Doctrine\Bundle\DoctrineBundle\DoctrineBundle</parameter>
       <parameter key="SensioFrameworkExtraBundle">Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle</parameter>
       <parameter key="WoWBundle">Skogstadmedia\Bundle\WoWBundle\WoWBundle</parameter>
+      <parameter key="CbbBundle">Skogstadmedia\Bundle\CbbBundle\CbbBundle</parameter>
+      <parameter key="TedivmStashBundle">Tedivm\StashBundle\TedivmStashBundle</parameter>
+      <parameter key="AheadCmsBundle">SkogstadMedia\Bundle\AheadCmsBundle\AheadCmsBundle</parameter>
       <parameter key="WebProfilerBundle">Symfony\Bundle\WebProfilerBundle\WebProfilerBundle</parameter>
       <parameter key="SensioDistributionBundle">Sensio\Bundle\DistributionBundle\SensioDistributionBundle</parameter>
       <parameter key="SensioGeneratorBundle">Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle</parameter>
@@ -26,7 +29,7 @@
     <parameter key="database_driver">pdo_mysql</parameter>
     <parameter key="database_host">127.0.0.1</parameter>
     <parameter key="database_port">null</parameter>
-    <parameter key="database_name">symfony</parameter>
+    <parameter key="database_name">ahead</parameter>
     <parameter key="database_user">root</parameter>
     <parameter key="database_password">hotmailz2</parameter>
     <parameter key="mailer_transport">smtp</parameter>
@@ -414,7 +417,23 @@
     <parameter key="assetic.value_supplier.class">Symfony\Bundle\AsseticBundle\DefaultValueSupplier</parameter>
     <parameter key="assetic.node.paths" type="collection"/>
     <parameter key="assetic.cache_dir">/Users/daniel/Sites/cbb/app/cache/dev/assetic</parameter>
-    <parameter key="assetic.bundles" type="collection"/>
+    <parameter key="assetic.bundles" type="collection">
+      <parameter>FrameworkBundle</parameter>
+      <parameter>SecurityBundle</parameter>
+      <parameter>TwigBundle</parameter>
+      <parameter>MonologBundle</parameter>
+      <parameter>SwiftmailerBundle</parameter>
+      <parameter>AsseticBundle</parameter>
+      <parameter>DoctrineBundle</parameter>
+      <parameter>SensioFrameworkExtraBundle</parameter>
+      <parameter>WoWBundle</parameter>
+      <parameter>CbbBundle</parameter>
+      <parameter>TedivmStashBundle</parameter>
+      <parameter>AheadCmsBundle</parameter>
+      <parameter>WebProfilerBundle</parameter>
+      <parameter>SensioDistributionBundle</parameter>
+      <parameter>SensioGeneratorBundle</parameter>
+    </parameter>
     <parameter key="assetic.twig_extension.class">Symfony\Bundle\AsseticBundle\Twig\AsseticExtension</parameter>
     <parameter key="assetic.twig_formula_loader.class">Assetic\Extension\Twig\TwigFormulaLoader</parameter>
     <parameter key="assetic.helper.dynamic.class">Symfony\Bundle\AsseticBundle\Templating\DynamicAsseticHelper</parameter>
@@ -503,6 +522,56 @@
     <parameter key="sensio_framework_extra.converter.doctrine.class">Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\DoctrineParamConverter</parameter>
     <parameter key="sensio_framework_extra.converter.datetime.class">Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\DateTimeParamConverter</parameter>
     <parameter key="sensio_framework_extra.view.listener.class">Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener</parameter>
+    <parameter key="guild.realm">Stormreaver</parameter>
+    <parameter key="stash.cache.class">Tedivm\StashBundle\Service\CacheService</parameter>
+    <parameter key="stash.logger.class">Tedivm\StashBundle\Service\CacheLogger</parameter>
+    <parameter key="stash.handler.class">Stash\Handler\HandlerInterface</parameter>
+    <parameter key="stash.factory.class">Tedivm\StashBundle\Factory\HandlerFactory</parameter>
+    <parameter key="stash.adapter.doctrine.class">Tedivm\StashBundle\Adapters\DoctrineAdapter</parameter>
+    <parameter key="stash.adapter.session.class">Tedivm\StashBundle\Adapters\SessionHandlerAdapter</parameter>
+    <parameter key="stash.data_collector.class">Tedivm\StashBundle\Collector\CacheDataCollector</parameter>
+    <parameter key="stash.logging">true</parameter>
+    <parameter key="stash.caches" type="collection">
+      <parameter key="default">stash.default_cache</parameter>
+    </parameter>
+    <parameter key="stash.caches.options" type="collection">
+      <parameter key="default" type="collection">
+        <parameter key="handlers" type="collection">
+          <parameter>FileSystem</parameter>
+        </parameter>
+        <parameter key="FileSystem" type="collection">
+          <parameter key="dirSplit">2</parameter>
+          <parameter key="path">/Users/daniel/Sites/cbb/app/cache/dev/stash</parameter>
+          <parameter key="filePermissions">432</parameter>
+          <parameter key="dirPermissions">504</parameter>
+          <parameter key="memKeyLimit">200</parameter>
+          <parameter key="keyHashFunction">md5</parameter>
+        </parameter>
+        <parameter key="registerDoctrineAdapter">false</parameter>
+        <parameter key="registerSessionHandler">false</parameter>
+        <parameter key="inMemory">true</parameter>
+        <parameter key="BlackHole" type="collection"/>
+        <parameter key="Ephemeral" type="collection"/>
+        <parameter key="Memcache" type="collection">
+          <parameter key="servers" type="collection">
+            <parameter type="collection">
+              <parameter key="server">127.0.0.1</parameter>
+              <parameter key="port">11211</parameter>
+            </parameter>
+          </parameter>
+        </parameter>
+        <parameter key="SQLite" type="collection">
+          <parameter key="filePermissions">432</parameter>
+          <parameter key="dirPermissions">504</parameter>
+          <parameter key="busyTimeout">500</parameter>
+          <parameter key="nesting">0</parameter>
+          <parameter key="subhandler">PDO</parameter>
+          <parameter key="version">null</parameter>
+          <parameter key="path">/Users/daniel/Sites/cbb/app/cache/dev/stash</parameter>
+        </parameter>
+      </parameter>
+    </parameter>
+    <parameter key="stash.default_cache">default</parameter>
     <parameter key="web_profiler.controller.profiler.class">Symfony\Bundle\WebProfilerBundle\Controller\ProfilerController</parameter>
     <parameter key="web_profiler.controller.router.class">Symfony\Bundle\WebProfilerBundle\Controller\RouterController</parameter>
     <parameter key="web_profiler.controller.exception.class">Symfony\Bundle\WebProfilerBundle\Controller\ExceptionController</parameter>
@@ -559,6 +628,10 @@
       <parameter key="data_collector.doctrine" type="collection">
         <parameter>db</parameter>
         <parameter>DoctrineBundle:Collector:db</parameter>
+      </parameter>
+      <parameter key="data_collector.stash" type="collection">
+        <parameter>stash</parameter>
+        <parameter>TedivmStashBundle:Profiler:layout</parameter>
       </parameter>
     </parameter>
     <parameter key="console.command.ids" type="collection"/>
@@ -1505,6 +1578,9 @@
           </service>
         </argument>
       </call>
+      <call method="add">
+        <argument type="service" id="data_collector.stash"/>
+      </call>
     </service>
     <service id="profiler_listener" class="Symfony\Component\HttpKernel\EventListener\ProfilerListener">
       <tag name="kernel.event_subscriber"/>
@@ -2077,7 +2153,23 @@
             <argument type="service" id="templating.name_parser"/>
             <argument>true</argument>
             <argument type="collection"/>
-            <argument type="collection"/>
+            <argument type="collection">
+              <argument>FrameworkBundle</argument>
+              <argument>SecurityBundle</argument>
+              <argument>TwigBundle</argument>
+              <argument>MonologBundle</argument>
+              <argument>SwiftmailerBundle</argument>
+              <argument>AsseticBundle</argument>
+              <argument>DoctrineBundle</argument>
+              <argument>SensioFrameworkExtraBundle</argument>
+              <argument>WoWBundle</argument>
+              <argument>CbbBundle</argument>
+              <argument>TedivmStashBundle</argument>
+              <argument>AheadCmsBundle</argument>
+              <argument>WebProfilerBundle</argument>
+              <argument>SensioDistributionBundle</argument>
+              <argument>SensioGeneratorBundle</argument>
+            </argument>
             <argument type="service" id="assetic.value_supplier.default" on-invalid="null"/>
           </service>
         </argument>
@@ -2088,6 +2180,9 @@
             <tag name="twig.extension"/>
           </service>
         </argument>
+      </call>
+      <call method="addExtension">
+        <argument type="service" id="cbb.twig.bossimage"/>
       </call>
       <call method="addGlobal">
         <argument>app</argument>
@@ -2160,6 +2255,411 @@
       </argument>
       <call method="addResource">
         <argument type="service">
+          <service class="Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource" public="false">
+            <tag name="assetic.templating.twig"/>
+            <tag name="assetic.formula_resource" loader="twig"/>
+            <argument type="collection">
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>FrameworkBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/app/Resources/FrameworkBundle/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>FrameworkBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/Resources/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+            </argument>
+          </service>
+        </argument>
+        <argument>twig</argument>
+      </call>
+      <call method="addResource">
+        <argument type="service">
+          <service class="Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource" public="false">
+            <tag name="assetic.templating.twig"/>
+            <tag name="assetic.formula_resource" loader="twig"/>
+            <argument type="collection">
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>SecurityBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/app/Resources/SecurityBundle/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>SecurityBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/vendor/symfony/symfony/src/Symfony/Bundle/SecurityBundle/Resources/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+            </argument>
+          </service>
+        </argument>
+        <argument>twig</argument>
+      </call>
+      <call method="addResource">
+        <argument type="service">
+          <service class="Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource" public="false">
+            <tag name="assetic.templating.twig"/>
+            <tag name="assetic.formula_resource" loader="twig"/>
+            <argument type="collection">
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>TwigBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/app/Resources/TwigBundle/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>TwigBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/vendor/symfony/symfony/src/Symfony/Bundle/TwigBundle/Resources/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+            </argument>
+          </service>
+        </argument>
+        <argument>twig</argument>
+      </call>
+      <call method="addResource">
+        <argument type="service">
+          <service class="Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource" public="false">
+            <tag name="assetic.templating.twig"/>
+            <tag name="assetic.formula_resource" loader="twig"/>
+            <argument type="collection">
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>MonologBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/app/Resources/MonologBundle/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>MonologBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/vendor/symfony/monolog-bundle/Symfony/Bundle/MonologBundle/Resources/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+            </argument>
+          </service>
+        </argument>
+        <argument>twig</argument>
+      </call>
+      <call method="addResource">
+        <argument type="service">
+          <service class="Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource" public="false">
+            <tag name="assetic.templating.twig"/>
+            <tag name="assetic.formula_resource" loader="twig"/>
+            <argument type="collection">
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>SwiftmailerBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/app/Resources/SwiftmailerBundle/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>SwiftmailerBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/vendor/symfony/swiftmailer-bundle/Symfony/Bundle/SwiftmailerBundle/Resources/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+            </argument>
+          </service>
+        </argument>
+        <argument>twig</argument>
+      </call>
+      <call method="addResource">
+        <argument type="service">
+          <service class="Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource" public="false">
+            <tag name="assetic.templating.twig"/>
+            <tag name="assetic.formula_resource" loader="twig"/>
+            <argument type="collection">
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>AsseticBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/app/Resources/AsseticBundle/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>AsseticBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/vendor/symfony/assetic-bundle/Symfony/Bundle/AsseticBundle/Resources/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+            </argument>
+          </service>
+        </argument>
+        <argument>twig</argument>
+      </call>
+      <call method="addResource">
+        <argument type="service">
+          <service class="Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource" public="false">
+            <tag name="assetic.templating.twig"/>
+            <tag name="assetic.formula_resource" loader="twig"/>
+            <argument type="collection">
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>DoctrineBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/app/Resources/DoctrineBundle/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>DoctrineBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/vendor/doctrine/doctrine-bundle/Doctrine/Bundle/DoctrineBundle/Resources/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+            </argument>
+          </service>
+        </argument>
+        <argument>twig</argument>
+      </call>
+      <call method="addResource">
+        <argument type="service">
+          <service class="Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource" public="false">
+            <tag name="assetic.templating.twig"/>
+            <tag name="assetic.formula_resource" loader="twig"/>
+            <argument type="collection">
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>SensioFrameworkExtraBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/app/Resources/SensioFrameworkExtraBundle/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>SensioFrameworkExtraBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/vendor/sensio/framework-extra-bundle/Sensio/Bundle/FrameworkExtraBundle/Resources/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+            </argument>
+          </service>
+        </argument>
+        <argument>twig</argument>
+      </call>
+      <call method="addResource">
+        <argument type="service">
+          <service class="Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource" public="false">
+            <tag name="assetic.templating.twig"/>
+            <tag name="assetic.formula_resource" loader="twig"/>
+            <argument type="collection">
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>WoWBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/app/Resources/WoWBundle/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>WoWBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/src/Skogstadmedia/Bundle/WoWBundle/Resources/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+            </argument>
+          </service>
+        </argument>
+        <argument>twig</argument>
+      </call>
+      <call method="addResource">
+        <argument type="service">
+          <service class="Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource" public="false">
+            <tag name="assetic.templating.twig"/>
+            <tag name="assetic.formula_resource" loader="twig"/>
+            <argument type="collection">
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>CbbBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/app/Resources/CbbBundle/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>CbbBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/src/Skogstadmedia/Bundle/CbbBundle/Resources/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+            </argument>
+          </service>
+        </argument>
+        <argument>twig</argument>
+      </call>
+      <call method="addResource">
+        <argument type="service">
+          <service class="Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource" public="false">
+            <tag name="assetic.templating.twig"/>
+            <tag name="assetic.formula_resource" loader="twig"/>
+            <argument type="collection">
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>TedivmStashBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/app/Resources/TedivmStashBundle/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>TedivmStashBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/vendor/tedivm/stash-bundle/Tedivm/StashBundle/Resources/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+            </argument>
+          </service>
+        </argument>
+        <argument>twig</argument>
+      </call>
+      <call method="addResource">
+        <argument type="service">
+          <service class="Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource" public="false">
+            <tag name="assetic.templating.twig"/>
+            <tag name="assetic.formula_resource" loader="twig"/>
+            <argument type="collection">
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>AheadCmsBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/app/Resources/AheadCmsBundle/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>AheadCmsBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/src/SkogstadMedia/Bundle/AheadCmsBundle/Resources/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+            </argument>
+          </service>
+        </argument>
+        <argument>twig</argument>
+      </call>
+      <call method="addResource">
+        <argument type="service">
+          <service class="Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource" public="false">
+            <tag name="assetic.templating.twig"/>
+            <tag name="assetic.formula_resource" loader="twig"/>
+            <argument type="collection">
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>WebProfilerBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/app/Resources/WebProfilerBundle/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>WebProfilerBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/vendor/symfony/symfony/src/Symfony/Bundle/WebProfilerBundle/Resources/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+            </argument>
+          </service>
+        </argument>
+        <argument>twig</argument>
+      </call>
+      <call method="addResource">
+        <argument type="service">
+          <service class="Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource" public="false">
+            <tag name="assetic.templating.twig"/>
+            <tag name="assetic.formula_resource" loader="twig"/>
+            <argument type="collection">
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>SensioDistributionBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/app/Resources/SensioDistributionBundle/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>SensioDistributionBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/vendor/sensio/distribution-bundle/Sensio/Bundle/DistributionBundle/Resources/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+            </argument>
+          </service>
+        </argument>
+        <argument>twig</argument>
+      </call>
+      <call method="addResource">
+        <argument type="service">
+          <service class="Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource" public="false">
+            <tag name="assetic.templating.twig"/>
+            <tag name="assetic.formula_resource" loader="twig"/>
+            <argument type="collection">
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>SensioGeneratorBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/app/Resources/SensioGeneratorBundle/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>SensioGeneratorBundle</argument>
+                  <argument>/Users/daniel/Sites/cbb/vendor/sensio/generator-bundle/Sensio/Bundle/GeneratorBundle/Resources/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+            </argument>
+          </service>
+        </argument>
+        <argument>twig</argument>
+      </call>
+      <call method="addResource">
+        <argument type="service">
           <service class="Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource" public="false">
             <tag name="assetic.templating.twig"/>
             <tag name="assetic.formula_resource" loader="twig"/>
@@ -2227,7 +2727,7 @@
     <service id="doctrine.dbal.logger.profiling.default" class="Doctrine\DBAL\Logging\DebugStack" public="false"/>
     <service id="doctrine.dbal.default_connection" class="stdClass" factory-method="createConnection" factory-service="doctrine.dbal.connection_factory">
       <argument type="collection">
-        <argument key="dbname">symfony</argument>
+        <argument key="dbname">ahead</argument>
         <argument key="host">127.0.0.1</argument>
         <argument key="port">null</argument>
         <argument key="user">root</argument>
@@ -2290,7 +2790,9 @@
       <argument type="service">
         <service class="Doctrine\ORM\Configuration" public="false">
           <call method="setEntityNamespaces">
-            <argument type="collection"/>
+            <argument type="collection">
+              <argument key="AheadCmsBundle">SkogstadMedia\Bundle\AheadCmsBundle\Entity</argument>
+            </argument>
           </call>
           <call method="setMetadataCacheImpl">
             <argument type="service">
@@ -2321,7 +2823,19 @@
           </call>
           <call method="setMetadataDriverImpl">
             <argument type="service">
-              <service class="Doctrine\ORM\Mapping\Driver\DriverChain" public="false"/>
+              <service class="Doctrine\ORM\Mapping\Driver\DriverChain" public="false">
+                <call method="addDriver">
+                  <argument type="service">
+                    <service class="Doctrine\ORM\Mapping\Driver\AnnotationDriver" public="false">
+                      <argument type="service" id="annotation_reader"/>
+                      <argument type="collection">
+                        <argument>/Users/daniel/Sites/cbb/src/SkogstadMedia/Bundle/AheadCmsBundle/Entity</argument>
+                      </argument>
+                    </service>
+                  </argument>
+                  <argument>SkogstadMedia\Bundle\AheadCmsBundle\Entity</argument>
+                </call>
+              </service>
             </argument>
           </call>
           <call method="setProxyDir">
@@ -2394,6 +2908,105 @@
       <argument type="service" id="security.authentication.trust_resolver" on-invalid="null"/>
       <argument type="service" id="security.role_hierarchy" on-invalid="null"/>
     </service>
+    <service id="wow.bnet" class="Skogstadmedia\Bundle\WoWBundle\Services\BnetService">
+      <argument type="service" id="stash.default_cache"/>
+    </service>
+    <service id="cbb.twig.bossimage" class="Skogstadmedia\Bundle\CbbBundle\Twig\BossImageExtension">
+      <tag name="twig.extension"/>
+    </service>
+    <service id="data_collector.stash" class="Tedivm\StashBundle\Collector\CacheDataCollector">
+      <tag name="data_collector" id="stash" template="TedivmStashBundle:Profiler:layout"/>
+      <argument>default</argument>
+      <argument type="collection">
+        <argument key="default">stash.default_cache</argument>
+      </argument>
+      <argument type="collection">
+        <argument key="default" type="collection">
+          <argument key="handlers" type="collection">
+            <argument>FileSystem</argument>
+          </argument>
+          <argument key="FileSystem" type="collection">
+            <argument key="dirSplit">2</argument>
+            <argument key="path">/Users/daniel/Sites/cbb/app/cache/dev/stash</argument>
+            <argument key="filePermissions">432</argument>
+            <argument key="dirPermissions">504</argument>
+            <argument key="memKeyLimit">200</argument>
+            <argument key="keyHashFunction">md5</argument>
+          </argument>
+          <argument key="registerDoctrineAdapter">false</argument>
+          <argument key="registerSessionHandler">false</argument>
+          <argument key="inMemory">true</argument>
+          <argument key="BlackHole" type="collection"/>
+          <argument key="Ephemeral" type="collection"/>
+          <argument key="Memcache" type="collection">
+            <argument key="servers" type="collection">
+              <argument type="collection">
+                <argument key="server">127.0.0.1</argument>
+                <argument key="port">11211</argument>
+              </argument>
+            </argument>
+          </argument>
+          <argument key="SQLite" type="collection">
+            <argument key="filePermissions">432</argument>
+            <argument key="dirPermissions">504</argument>
+            <argument key="busyTimeout">500</argument>
+            <argument key="nesting">0</argument>
+            <argument key="subhandler">PDO</argument>
+            <argument key="version">null</argument>
+            <argument key="path">/Users/daniel/Sites/cbb/app/cache/dev/stash</argument>
+          </argument>
+        </argument>
+      </argument>
+      <call method="addLogger">
+        <argument type="service" id="stash.logger.default_cache"/>
+      </call>
+    </service>
+    <service id="stash.handler.default_cache" class="Stash\Handler\HandlerInterface" factory-method="createHandler">
+      <argument type="collection">
+        <argument>Ephemeral</argument>
+        <argument>FileSystem</argument>
+      </argument>
+      <argument type="collection">
+        <argument key="FileSystem" type="collection">
+          <argument key="dirSplit">2</argument>
+          <argument key="path">/Users/daniel/Sites/cbb/app/cache/dev/stash</argument>
+          <argument key="filePermissions">432</argument>
+          <argument key="dirPermissions">504</argument>
+          <argument key="memKeyLimit">200</argument>
+          <argument key="keyHashFunction">md5</argument>
+        </argument>
+        <argument key="BlackHole" type="collection"/>
+        <argument key="Ephemeral" type="collection"/>
+        <argument key="Memcache" type="collection">
+          <argument key="servers" type="collection">
+            <argument type="collection">
+              <argument key="server">127.0.0.1</argument>
+              <argument key="port">11211</argument>
+            </argument>
+          </argument>
+        </argument>
+        <argument key="SQLite" type="collection">
+          <argument key="filePermissions">432</argument>
+          <argument key="dirPermissions">504</argument>
+          <argument key="busyTimeout">500</argument>
+          <argument key="nesting">0</argument>
+          <argument key="subhandler">PDO</argument>
+          <argument key="version">null</argument>
+          <argument key="path">/Users/daniel/Sites/cbb/app/cache/dev/stash</argument>
+        </argument>
+      </argument>
+    </service>
+    <service id="stash.logger.default_cache" class="Tedivm\StashBundle\Service\CacheLogger">
+      <argument>default</argument>
+      <call method="enableQueryLogging">
+        <argument>true</argument>
+      </call>
+    </service>
+    <service id="stash.default_cache" class="Tedivm\StashBundle\Service\CacheService">
+      <argument>default</argument>
+      <argument type="service" id="stash.handler.default_cache"/>
+      <argument type="service" id="stash.logger.default_cache"/>
+    </service>
     <service id="web_profiler.controller.profiler" class="Symfony\Bundle\WebProfilerBundle\Controller\ProfilerController">
       <argument type="service" id="router" on-invalid="null"/>
       <argument type="service" id="profiler" on-invalid="null"/>
@@ -2446,6 +3059,10 @@
         <argument key="data_collector.doctrine" type="collection">
           <argument>db</argument>
           <argument>DoctrineBundle:Collector:db</argument>
+        </argument>
+        <argument key="data_collector.stash" type="collection">
+          <argument>stash</argument>
+          <argument>TedivmStashBundle:Profiler:layout</argument>
         </argument>
       </argument>
       <argument>bottom</argument>
@@ -2694,6 +3311,18 @@
         <argument>WoW</argument>
       </call>
       <call method="addPath">
+        <argument>/Users/daniel/Sites/cbb/src/Skogstadmedia/Bundle/CbbBundle/Resources/views</argument>
+        <argument>Cbb</argument>
+      </call>
+      <call method="addPath">
+        <argument>/Users/daniel/Sites/cbb/vendor/tedivm/stash-bundle/Tedivm/StashBundle/Resources/views</argument>
+        <argument>TedivmStash</argument>
+      </call>
+      <call method="addPath">
+        <argument>/Users/daniel/Sites/cbb/src/SkogstadMedia/Bundle/AheadCmsBundle/Resources/views</argument>
+        <argument>AheadCms</argument>
+      </call>
+      <call method="addPath">
         <argument>/Users/daniel/Sites/cbb/vendor/symfony/symfony/src/Symfony/Bundle/WebProfilerBundle/Resources/views</argument>
         <argument>WebProfiler</argument>
       </call>
@@ -2790,6 +3419,7 @@
     <service id="mailer" alias="swiftmailer.mailer.default"/>
     <service id="database_connection" alias="doctrine.dbal.default_connection"/>
     <service id="doctrine.orm.entity_manager" alias="doctrine.orm.default_entity_manager"/>
+    <service id="cache" alias="stash.default_cache"/>
     <service id="sensio.distribution.webconfigurator" alias="sensio_distribution.webconfigurator"/>
   </services>
 </container>

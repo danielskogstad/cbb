@@ -1,3 +1,11 @@
+ahead_cms:
+    resource: "@AheadCmsBundle/Resources/config/routing.yml"
+    prefix:   /
+
+cbb:
+    resource: "@CbbBundle/Resources/config/routing.yml"
+    prefix:   /
+
 wo_w:
     resource: "@WoWBundle/Resources/config/routing.yml"
     prefix:   /

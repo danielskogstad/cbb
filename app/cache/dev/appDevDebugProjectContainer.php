@@ -43,11 +43,13 @@ class appDevDebugProjectContainer extends Container
             'assetic.value_supplier.default' => 'getAssetic_ValueSupplier_DefaultService',
             'cache_clearer' => 'getCacheClearerService',
             'cache_warmer' => 'getCacheWarmerService',
+            'cbb.twig.bossimage' => 'getCbb_Twig_BossimageService',
             'controller_name_converter' => 'getControllerNameConverterService',
             'data_collector.form' => 'getDataCollector_FormService',
             'data_collector.form.extractor' => 'getDataCollector_Form_ExtractorService',
             'data_collector.request' => 'getDataCollector_RequestService',
             'data_collector.router' => 'getDataCollector_RouterService',
+            'data_collector.stash' => 'getDataCollector_StashService',
             'debug.controller_resolver' => 'getDebug_ControllerResolverService',
             'debug.deprecation_logger_listener' => 'getDebug_DeprecationLoggerListenerService',
             'debug.emergency_logger_listener' => 'getDebug_EmergencyLoggerListenerService',
@@ -170,6 +172,9 @@ class appDevDebugProjectContainer extends Container
             'session.storage.native' => 'getSession_Storage_NativeService',
             'session.storage.php_bridge' => 'getSession_Storage_PhpBridgeService',
             'session_listener' => 'getSessionListenerService',
+            'stash.default_cache' => 'getStash_DefaultCacheService',
+            'stash.handler.default_cache' => 'getStash_Handler_DefaultCacheService',
+            'stash.logger.default_cache' => 'getStash_Logger_DefaultCacheService',
             'streamed_response_listener' => 'getStreamedResponseListenerService',
             'swiftmailer.email_sender.listener' => 'getSwiftmailer_EmailSender_ListenerService',
             'swiftmailer.mailer.default' => 'getSwiftmailer_Mailer_DefaultService',
@@ -238,8 +243,10 @@ class appDevDebugProjectContainer extends Container
             'web_profiler.controller.profiler' => 'getWebProfiler_Controller_ProfilerService',
             'web_profiler.controller.router' => 'getWebProfiler_Controller_RouterService',
             'web_profiler.debug_toolbar' => 'getWebProfiler_DebugToolbarService',
+            'wow.bnet' => 'getWow_BnetService',
         );
         $this->aliases = array(
+            'cache' => 'stash.default_cache',
             'database_connection' => 'doctrine.dbal.default_connection',
             'debug.templating.engine.twig' => 'templating',
             'doctrine.orm.entity_manager' => 'doctrine.orm.default_entity_manager',
@@ -278,9 +285,26 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getAssetic_AssetManagerService()
     {
+        $a = $this->get('templating.loader');
+
         $this->services['assetic.asset_manager'] = $instance = new \Assetic\Factory\LazyAssetManager($this->get('assetic.asset_factory'), array('twig' => new \Assetic\Factory\Loader\CachedFormulaLoader(new \Assetic\Extension\Twig\TwigFormulaLoader($this->get('twig')), new \Assetic\Cache\ConfigCache('/Users/daniel/Sites/cbb/app/cache/dev/assetic/config'), true)));
 
-        $instance->addResource(new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($this->get('templating.loader'), '', '/Users/daniel/Sites/cbb/app/Resources/views', '/\\.[^.]+\\.twig$/'), 'twig');
+        $instance->addResource(new \Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource(array(0 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'FrameworkBundle', '/Users/daniel/Sites/cbb/app/Resources/FrameworkBundle/views', '/\\.[^.]+\\.twig$/'), 1 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'FrameworkBundle', '/Users/daniel/Sites/cbb/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/Resources/views', '/\\.[^.]+\\.twig$/'))), 'twig');
+        $instance->addResource(new \Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource(array(0 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'SecurityBundle', '/Users/daniel/Sites/cbb/app/Resources/SecurityBundle/views', '/\\.[^.]+\\.twig$/'), 1 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'SecurityBundle', '/Users/daniel/Sites/cbb/vendor/symfony/symfony/src/Symfony/Bundle/SecurityBundle/Resources/views', '/\\.[^.]+\\.twig$/'))), 'twig');
+        $instance->addResource(new \Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource(array(0 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'TwigBundle', '/Users/daniel/Sites/cbb/app/Resources/TwigBundle/views', '/\\.[^.]+\\.twig$/'), 1 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'TwigBundle', '/Users/daniel/Sites/cbb/vendor/symfony/symfony/src/Symfony/Bundle/TwigBundle/Resources/views', '/\\.[^.]+\\.twig$/'))), 'twig');
+        $instance->addResource(new \Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource(array(0 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'MonologBundle', '/Users/daniel/Sites/cbb/app/Resources/MonologBundle/views', '/\\.[^.]+\\.twig$/'), 1 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'MonologBundle', '/Users/daniel/Sites/cbb/vendor/symfony/monolog-bundle/Symfony/Bundle/MonologBundle/Resources/views', '/\\.[^.]+\\.twig$/'))), 'twig');
+        $instance->addResource(new \Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource(array(0 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'SwiftmailerBundle', '/Users/daniel/Sites/cbb/app/Resources/SwiftmailerBundle/views', '/\\.[^.]+\\.twig$/'), 1 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'SwiftmailerBundle', '/Users/daniel/Sites/cbb/vendor/symfony/swiftmailer-bundle/Symfony/Bundle/SwiftmailerBundle/Resources/views', '/\\.[^.]+\\.twig$/'))), 'twig');
+        $instance->addResource(new \Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource(array(0 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'AsseticBundle', '/Users/daniel/Sites/cbb/app/Resources/AsseticBundle/views', '/\\.[^.]+\\.twig$/'), 1 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'AsseticBundle', '/Users/daniel/Sites/cbb/vendor/symfony/assetic-bundle/Symfony/Bundle/AsseticBundle/Resources/views', '/\\.[^.]+\\.twig$/'))), 'twig');
+        $instance->addResource(new \Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource(array(0 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'DoctrineBundle', '/Users/daniel/Sites/cbb/app/Resources/DoctrineBundle/views', '/\\.[^.]+\\.twig$/'), 1 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'DoctrineBundle', '/Users/daniel/Sites/cbb/vendor/doctrine/doctrine-bundle/Doctrine/Bundle/DoctrineBundle/Resources/views', '/\\.[^.]+\\.twig$/'))), 'twig');
+        $instance->addResource(new \Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource(array(0 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'SensioFrameworkExtraBundle', '/Users/daniel/Sites/cbb/app/Resources/SensioFrameworkExtraBundle/views', '/\\.[^.]+\\.twig$/'), 1 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'SensioFrameworkExtraBundle', '/Users/daniel/Sites/cbb/vendor/sensio/framework-extra-bundle/Sensio/Bundle/FrameworkExtraBundle/Resources/views', '/\\.[^.]+\\.twig$/'))), 'twig');
+        $instance->addResource(new \Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource(array(0 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'WoWBundle', '/Users/daniel/Sites/cbb/app/Resources/WoWBundle/views', '/\\.[^.]+\\.twig$/'), 1 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'WoWBundle', '/Users/daniel/Sites/cbb/src/Skogstadmedia/Bundle/WoWBundle/Resources/views', '/\\.[^.]+\\.twig$/'))), 'twig');
+        $instance->addResource(new \Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource(array(0 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'CbbBundle', '/Users/daniel/Sites/cbb/app/Resources/CbbBundle/views', '/\\.[^.]+\\.twig$/'), 1 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'CbbBundle', '/Users/daniel/Sites/cbb/src/Skogstadmedia/Bundle/CbbBundle/Resources/views', '/\\.[^.]+\\.twig$/'))), 'twig');
+        $instance->addResource(new \Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource(array(0 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'TedivmStashBundle', '/Users/daniel/Sites/cbb/app/Resources/TedivmStashBundle/views', '/\\.[^.]+\\.twig$/'), 1 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'TedivmStashBundle', '/Users/daniel/Sites/cbb/vendor/tedivm/stash-bundle/Tedivm/StashBundle/Resources/views', '/\\.[^.]+\\.twig$/'))), 'twig');
+        $instance->addResource(new \Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource(array(0 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'AheadCmsBundle', '/Users/daniel/Sites/cbb/app/Resources/AheadCmsBundle/views', '/\\.[^.]+\\.twig$/'), 1 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'AheadCmsBundle', '/Users/daniel/Sites/cbb/src/SkogstadMedia/Bundle/AheadCmsBundle/Resources/views', '/\\.[^.]+\\.twig$/'))), 'twig');
+        $instance->addResource(new \Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource(array(0 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'WebProfilerBundle', '/Users/daniel/Sites/cbb/app/Resources/WebProfilerBundle/views', '/\\.[^.]+\\.twig$/'), 1 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'WebProfilerBundle', '/Users/daniel/Sites/cbb/vendor/symfony/symfony/src/Symfony/Bundle/WebProfilerBundle/Resources/views', '/\\.[^.]+\\.twig$/'))), 'twig');
+        $instance->addResource(new \Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource(array(0 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'SensioDistributionBundle', '/Users/daniel/Sites/cbb/app/Resources/SensioDistributionBundle/views', '/\\.[^.]+\\.twig$/'), 1 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'SensioDistributionBundle', '/Users/daniel/Sites/cbb/vendor/sensio/distribution-bundle/Sensio/Bundle/DistributionBundle/Resources/views', '/\\.[^.]+\\.twig$/'))), 'twig');
+        $instance->addResource(new \Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource(array(0 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'SensioGeneratorBundle', '/Users/daniel/Sites/cbb/app/Resources/SensioGeneratorBundle/views', '/\\.[^.]+\\.twig$/'), 1 => new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, 'SensioGeneratorBundle', '/Users/daniel/Sites/cbb/vendor/sensio/generator-bundle/Sensio/Bundle/GeneratorBundle/Resources/views', '/\\.[^.]+\\.twig$/'))), 'twig');
+        $instance->addResource(new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($a, '', '/Users/daniel/Sites/cbb/app/Resources/views', '/\\.[^.]+\\.twig$/'), 'twig');
 
         return $instance;
     }
@@ -372,6 +396,19 @@ class appDevDebugProjectContainer extends Container
     }
 
     /**
+     * Gets the 'cbb.twig.bossimage' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Skogstadmedia\Bundle\CbbBundle\Twig\BossImageExtension A Skogstadmedia\Bundle\CbbBundle\Twig\BossImageExtension instance.
+     */
+    protected function getCbb_Twig_BossimageService()
+    {
+        return $this->services['cbb.twig.bossimage'] = new \Skogstadmedia\Bundle\CbbBundle\Twig\BossImageExtension();
+    }
+
+    /**
      * Gets the 'data_collector.form' service.
      *
      * This service is shared.
@@ -421,6 +458,23 @@ class appDevDebugProjectContainer extends Container
     protected function getDataCollector_RouterService()
     {
         return $this->services['data_collector.router'] = new \Symfony\Bundle\FrameworkBundle\DataCollector\RouterDataCollector();
+    }
+
+    /**
+     * Gets the 'data_collector.stash' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Tedivm\StashBundle\Collector\CacheDataCollector A Tedivm\StashBundle\Collector\CacheDataCollector instance.
+     */
+    protected function getDataCollector_StashService()
+    {
+        $this->services['data_collector.stash'] = $instance = new \Tedivm\StashBundle\Collector\CacheDataCollector('default', array('default' => 'stash.default_cache'), array('default' => array('handlers' => array(0 => 'FileSystem'), 'FileSystem' => array('dirSplit' => 2, 'path' => '/Users/daniel/Sites/cbb/app/cache/dev/stash', 'filePermissions' => 432, 'dirPermissions' => 504, 'memKeyLimit' => 200, 'keyHashFunction' => 'md5'), 'registerDoctrineAdapter' => false, 'registerSessionHandler' => false, 'inMemory' => true, 'BlackHole' => array(), 'Ephemeral' => array(), 'Memcache' => array('servers' => array(0 => array('server' => '127.0.0.1', 'port' => '11211'))), 'SQLite' => array('filePermissions' => 432, 'dirPermissions' => 504, 'busyTimeout' => 500, 'nesting' => 0, 'subhandler' => 'PDO', 'version' => NULL, 'path' => '/Users/daniel/Sites/cbb/app/cache/dev/stash'))));
+
+        $instance->addLogger($this->get('stash.logger.default_cache'));
+
+        return $instance;
     }
 
     /**
@@ -574,7 +628,7 @@ class appDevDebugProjectContainer extends Container
         $b = new \Doctrine\DBAL\Configuration();
         $b->setSQLLogger($a);
 
-        return $this->services['doctrine.dbal.default_connection'] = $this->get('doctrine.dbal.connection_factory')->createConnection(array('dbname' => 'symfony', 'host' => '127.0.0.1', 'port' => NULL, 'user' => 'root', 'password' => 'hotmailz2', 'charset' => 'UTF8', 'driver' => 'pdo_mysql', 'driverOptions' => array()), $b, new \Symfony\Bridge\Doctrine\ContainerAwareEventManager($this), array());
+        return $this->services['doctrine.dbal.default_connection'] = $this->get('doctrine.dbal.connection_factory')->createConnection(array('dbname' => 'ahead', 'host' => '127.0.0.1', 'port' => NULL, 'user' => 'root', 'password' => 'hotmailz2', 'charset' => 'UTF8', 'driver' => 'pdo_mysql', 'driverOptions' => array()), $b, new \Symfony\Bridge\Doctrine\ContainerAwareEventManager($this), array());
     }
 
     /**
@@ -596,20 +650,23 @@ class appDevDebugProjectContainer extends Container
         $c = new \Doctrine\Common\Cache\ArrayCache();
         $c->setNamespace('sf2orm_default_98844ad600fc6dac8706f00591d4132417105eef9da8e3291dd5151e5b7c1a94');
 
-        $d = new \Doctrine\ORM\Configuration();
-        $d->setEntityNamespaces(array());
-        $d->setMetadataCacheImpl($a);
-        $d->setQueryCacheImpl($b);
-        $d->setResultCacheImpl($c);
-        $d->setMetadataDriverImpl(new \Doctrine\ORM\Mapping\Driver\DriverChain());
-        $d->setProxyDir('/Users/daniel/Sites/cbb/app/cache/dev/doctrine/orm/Proxies');
-        $d->setProxyNamespace('Proxies');
-        $d->setAutoGenerateProxyClasses(true);
-        $d->setClassMetadataFactoryName('Doctrine\\ORM\\Mapping\\ClassMetadataFactory');
-        $d->setDefaultRepositoryClassName('Doctrine\\ORM\\EntityRepository');
-        $d->setNamingStrategy(new \Doctrine\ORM\Mapping\DefaultNamingStrategy());
+        $d = new \Doctrine\ORM\Mapping\Driver\DriverChain();
+        $d->addDriver(new \Doctrine\ORM\Mapping\Driver\AnnotationDriver($this->get('annotation_reader'), array(0 => '/Users/daniel/Sites/cbb/src/SkogstadMedia/Bundle/AheadCmsBundle/Entity')), 'SkogstadMedia\\Bundle\\AheadCmsBundle\\Entity');
 
-        $this->services['doctrine.orm.default_entity_manager'] = $instance = call_user_func(array('Doctrine\\ORM\\EntityManager', 'create'), $this->get('doctrine.dbal.default_connection'), $d);
+        $e = new \Doctrine\ORM\Configuration();
+        $e->setEntityNamespaces(array('AheadCmsBundle' => 'SkogstadMedia\\Bundle\\AheadCmsBundle\\Entity'));
+        $e->setMetadataCacheImpl($a);
+        $e->setQueryCacheImpl($b);
+        $e->setResultCacheImpl($c);
+        $e->setMetadataDriverImpl($d);
+        $e->setProxyDir('/Users/daniel/Sites/cbb/app/cache/dev/doctrine/orm/Proxies');
+        $e->setProxyNamespace('Proxies');
+        $e->setAutoGenerateProxyClasses(true);
+        $e->setClassMetadataFactoryName('Doctrine\\ORM\\Mapping\\ClassMetadataFactory');
+        $e->setDefaultRepositoryClassName('Doctrine\\ORM\\EntityRepository');
+        $e->setNamingStrategy(new \Doctrine\ORM\Mapping\DefaultNamingStrategy());
+
+        $this->services['doctrine.orm.default_entity_manager'] = $instance = call_user_func(array('Doctrine\\ORM\\EntityManager', 'create'), $this->get('doctrine.dbal.default_connection'), $e);
 
         $this->get('doctrine.orm.default_manager_configurator')->configure($instance);
 
@@ -1626,6 +1683,7 @@ class appDevDebugProjectContainer extends Container
         $instance->add(new \Symfony\Bundle\SecurityBundle\DataCollector\SecurityDataCollector($this->get('security.context', ContainerInterface::NULL_ON_INVALID_REFERENCE)));
         $instance->add(new \Symfony\Bundle\SwiftmailerBundle\DataCollector\MessageDataCollector($this));
         $instance->add($d);
+        $instance->add($this->get('data_collector.stash'));
 
         return $instance;
     }
@@ -2111,6 +2169,49 @@ class appDevDebugProjectContainer extends Container
     protected function getSessionListenerService()
     {
         return $this->services['session_listener'] = new \Symfony\Bundle\FrameworkBundle\EventListener\SessionListener($this);
+    }
+
+    /**
+     * Gets the 'stash.default_cache' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Tedivm\StashBundle\Service\CacheService A Tedivm\StashBundle\Service\CacheService instance.
+     */
+    protected function getStash_DefaultCacheService()
+    {
+        return $this->services['stash.default_cache'] = new \Tedivm\StashBundle\Service\CacheService('default', $this->get('stash.handler.default_cache'), $this->get('stash.logger.default_cache'));
+    }
+
+    /**
+     * Gets the 'stash.handler.default_cache' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Stash\Handler\HandlerInterface A Stash\Handler\HandlerInterface instance.
+     */
+    protected function getStash_Handler_DefaultCacheService()
+    {
+        return $this->services['stash.handler.default_cache'] = call_user_func(array('Tedivm\\StashBundle\\Factory\\HandlerFactory', 'createHandler'), array(0 => 'Ephemeral', 1 => 'FileSystem'), array('FileSystem' => array('dirSplit' => 2, 'path' => '/Users/daniel/Sites/cbb/app/cache/dev/stash', 'filePermissions' => 432, 'dirPermissions' => 504, 'memKeyLimit' => 200, 'keyHashFunction' => 'md5'), 'BlackHole' => array(), 'Ephemeral' => array(), 'Memcache' => array('servers' => array(0 => array('server' => '127.0.0.1', 'port' => '11211'))), 'SQLite' => array('filePermissions' => 432, 'dirPermissions' => 504, 'busyTimeout' => 500, 'nesting' => 0, 'subhandler' => 'PDO', 'version' => NULL, 'path' => '/Users/daniel/Sites/cbb/app/cache/dev/stash')));
+    }
+
+    /**
+     * Gets the 'stash.logger.default_cache' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Tedivm\StashBundle\Service\CacheLogger A Tedivm\StashBundle\Service\CacheLogger instance.
+     */
+    protected function getStash_Logger_DefaultCacheService()
+    {
+        $this->services['stash.logger.default_cache'] = $instance = new \Tedivm\StashBundle\Service\CacheLogger('default');
+
+        $instance->enableQueryLogging(true);
+
+        return $instance;
     }
 
     /**
@@ -2878,8 +2979,9 @@ class appDevDebugProjectContainer extends Container
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\HttpKernelExtension($this->get('fragment.handler')));
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\FormExtension(new \Symfony\Bridge\Twig\Form\TwigRenderer(new \Symfony\Bridge\Twig\Form\TwigRendererEngine(array(0 => 'form_div_layout.html.twig')), $this->get('form.csrf_provider', ContainerInterface::NULL_ON_INVALID_REFERENCE))));
         $instance->addExtension(new \Twig_Extension_Debug());
-        $instance->addExtension(new \Symfony\Bundle\AsseticBundle\Twig\AsseticExtension($this->get('assetic.asset_factory'), $this->get('templating.name_parser'), true, array(), array(), $this->get('assetic.value_supplier.default', ContainerInterface::NULL_ON_INVALID_REFERENCE)));
+        $instance->addExtension(new \Symfony\Bundle\AsseticBundle\Twig\AsseticExtension($this->get('assetic.asset_factory'), $this->get('templating.name_parser'), true, array(), array(0 => 'FrameworkBundle', 1 => 'SecurityBundle', 2 => 'TwigBundle', 3 => 'MonologBundle', 4 => 'SwiftmailerBundle', 5 => 'AsseticBundle', 6 => 'DoctrineBundle', 7 => 'SensioFrameworkExtraBundle', 8 => 'WoWBundle', 9 => 'CbbBundle', 10 => 'TedivmStashBundle', 11 => 'AheadCmsBundle', 12 => 'WebProfilerBundle', 13 => 'SensioDistributionBundle', 14 => 'SensioGeneratorBundle'), $this->get('assetic.value_supplier.default', ContainerInterface::NULL_ON_INVALID_REFERENCE)));
         $instance->addExtension(new \Doctrine\Bundle\DoctrineBundle\Twig\DoctrineExtension());
+        $instance->addExtension($this->get('cbb.twig.bossimage'));
         $instance->addGlobal('app', $this->get('templating.globals'));
 
         return $instance;
@@ -2929,6 +3031,9 @@ class appDevDebugProjectContainer extends Container
         $instance->addPath('/Users/daniel/Sites/cbb/vendor/symfony/swiftmailer-bundle/Symfony/Bundle/SwiftmailerBundle/Resources/views', 'Swiftmailer');
         $instance->addPath('/Users/daniel/Sites/cbb/vendor/doctrine/doctrine-bundle/Doctrine/Bundle/DoctrineBundle/Resources/views', 'Doctrine');
         $instance->addPath('/Users/daniel/Sites/cbb/src/Skogstadmedia/Bundle/WoWBundle/Resources/views', 'WoW');
+        $instance->addPath('/Users/daniel/Sites/cbb/src/Skogstadmedia/Bundle/CbbBundle/Resources/views', 'Cbb');
+        $instance->addPath('/Users/daniel/Sites/cbb/vendor/tedivm/stash-bundle/Tedivm/StashBundle/Resources/views', 'TedivmStash');
+        $instance->addPath('/Users/daniel/Sites/cbb/src/SkogstadMedia/Bundle/AheadCmsBundle/Resources/views', 'AheadCms');
         $instance->addPath('/Users/daniel/Sites/cbb/vendor/symfony/symfony/src/Symfony/Bundle/WebProfilerBundle/Resources/views', 'WebProfiler');
         $instance->addPath('/Users/daniel/Sites/cbb/vendor/sensio/distribution-bundle/Sensio/Bundle/DistributionBundle/Resources/views', 'SensioDistribution');
         $instance->addPath('/Users/daniel/Sites/cbb/app/Resources/views');
@@ -3012,7 +3117,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getWebProfiler_Controller_ProfilerService()
     {
-        return $this->services['web_profiler.controller.profiler'] = new \Symfony\Bundle\WebProfilerBundle\Controller\ProfilerController($this->get('router', ContainerInterface::NULL_ON_INVALID_REFERENCE), $this->get('profiler', ContainerInterface::NULL_ON_INVALID_REFERENCE), $this->get('twig'), array('data_collector.config' => array(0 => 'config', 1 => '@WebProfiler/Collector/config.html.twig'), 'data_collector.request' => array(0 => 'request', 1 => '@WebProfiler/Collector/request.html.twig'), 'data_collector.exception' => array(0 => 'exception', 1 => '@WebProfiler/Collector/exception.html.twig'), 'data_collector.events' => array(0 => 'events', 1 => '@WebProfiler/Collector/events.html.twig'), 'data_collector.logger' => array(0 => 'logger', 1 => '@WebProfiler/Collector/logger.html.twig'), 'data_collector.time' => array(0 => 'time', 1 => '@WebProfiler/Collector/time.html.twig'), 'data_collector.memory' => array(0 => 'memory', 1 => '@WebProfiler/Collector/memory.html.twig'), 'data_collector.router' => array(0 => 'router', 1 => '@WebProfiler/Collector/router.html.twig'), 'data_collector.form' => array(0 => 'form', 1 => '@WebProfiler/Collector/form.html.twig'), 'data_collector.security' => array(0 => 'security', 1 => '@Security/Collector/security.html.twig'), 'swiftmailer.data_collector' => array(0 => 'swiftmailer', 1 => '@Swiftmailer/Collector/swiftmailer.html.twig'), 'data_collector.doctrine' => array(0 => 'db', 1 => 'DoctrineBundle:Collector:db')), 'bottom');
+        return $this->services['web_profiler.controller.profiler'] = new \Symfony\Bundle\WebProfilerBundle\Controller\ProfilerController($this->get('router', ContainerInterface::NULL_ON_INVALID_REFERENCE), $this->get('profiler', ContainerInterface::NULL_ON_INVALID_REFERENCE), $this->get('twig'), array('data_collector.config' => array(0 => 'config', 1 => '@WebProfiler/Collector/config.html.twig'), 'data_collector.request' => array(0 => 'request', 1 => '@WebProfiler/Collector/request.html.twig'), 'data_collector.exception' => array(0 => 'exception', 1 => '@WebProfiler/Collector/exception.html.twig'), 'data_collector.events' => array(0 => 'events', 1 => '@WebProfiler/Collector/events.html.twig'), 'data_collector.logger' => array(0 => 'logger', 1 => '@WebProfiler/Collector/logger.html.twig'), 'data_collector.time' => array(0 => 'time', 1 => '@WebProfiler/Collector/time.html.twig'), 'data_collector.memory' => array(0 => 'memory', 1 => '@WebProfiler/Collector/memory.html.twig'), 'data_collector.router' => array(0 => 'router', 1 => '@WebProfiler/Collector/router.html.twig'), 'data_collector.form' => array(0 => 'form', 1 => '@WebProfiler/Collector/form.html.twig'), 'data_collector.security' => array(0 => 'security', 1 => '@Security/Collector/security.html.twig'), 'swiftmailer.data_collector' => array(0 => 'swiftmailer', 1 => '@Swiftmailer/Collector/swiftmailer.html.twig'), 'data_collector.doctrine' => array(0 => 'db', 1 => 'DoctrineBundle:Collector:db'), 'data_collector.stash' => array(0 => 'stash', 1 => 'TedivmStashBundle:Profiler:layout')), 'bottom');
     }
 
     /**
@@ -3039,6 +3144,19 @@ class appDevDebugProjectContainer extends Container
     protected function getWebProfiler_DebugToolbarService()
     {
         return $this->services['web_profiler.debug_toolbar'] = new \Symfony\Bundle\WebProfilerBundle\EventListener\WebDebugToolbarListener($this->get('twig'), false, 2, 'bottom', $this->get('router', ContainerInterface::NULL_ON_INVALID_REFERENCE));
+    }
+
+    /**
+     * Gets the 'wow.bnet' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Skogstadmedia\Bundle\WoWBundle\Services\BnetService A Skogstadmedia\Bundle\WoWBundle\Services\BnetService instance.
+     */
+    protected function getWow_BnetService()
+    {
+        return $this->services['wow.bnet'] = new \Skogstadmedia\Bundle\WoWBundle\Services\BnetService($this->get('stash.default_cache'));
     }
 
     /**
@@ -3396,6 +3514,9 @@ class appDevDebugProjectContainer extends Container
                 'DoctrineBundle' => 'Doctrine\\Bundle\\DoctrineBundle\\DoctrineBundle',
                 'SensioFrameworkExtraBundle' => 'Sensio\\Bundle\\FrameworkExtraBundle\\SensioFrameworkExtraBundle',
                 'WoWBundle' => 'Skogstadmedia\\Bundle\\WoWBundle\\WoWBundle',
+                'CbbBundle' => 'Skogstadmedia\\Bundle\\CbbBundle\\CbbBundle',
+                'TedivmStashBundle' => 'Tedivm\\StashBundle\\TedivmStashBundle',
+                'AheadCmsBundle' => 'SkogstadMedia\\Bundle\\AheadCmsBundle\\AheadCmsBundle',
                 'WebProfilerBundle' => 'Symfony\\Bundle\\WebProfilerBundle\\WebProfilerBundle',
                 'SensioDistributionBundle' => 'Sensio\\Bundle\\DistributionBundle\\SensioDistributionBundle',
                 'SensioGeneratorBundle' => 'Sensio\\Bundle\\GeneratorBundle\\SensioGeneratorBundle',
@@ -3405,7 +3526,7 @@ class appDevDebugProjectContainer extends Container
             'database_driver' => 'pdo_mysql',
             'database_host' => '127.0.0.1',
             'database_port' => NULL,
-            'database_name' => 'symfony',
+            'database_name' => 'ahead',
             'database_user' => 'root',
             'database_password' => 'hotmailz2',
             'mailer_transport' => 'smtp',
@@ -3806,7 +3927,21 @@ class appDevDebugProjectContainer extends Container
             ),
             'assetic.cache_dir' => '/Users/daniel/Sites/cbb/app/cache/dev/assetic',
             'assetic.bundles' => array(
-
+                0 => 'FrameworkBundle',
+                1 => 'SecurityBundle',
+                2 => 'TwigBundle',
+                3 => 'MonologBundle',
+                4 => 'SwiftmailerBundle',
+                5 => 'AsseticBundle',
+                6 => 'DoctrineBundle',
+                7 => 'SensioFrameworkExtraBundle',
+                8 => 'WoWBundle',
+                9 => 'CbbBundle',
+                10 => 'TedivmStashBundle',
+                11 => 'AheadCmsBundle',
+                12 => 'WebProfilerBundle',
+                13 => 'SensioDistributionBundle',
+                14 => 'SensioGeneratorBundle',
             ),
             'assetic.twig_extension.class' => 'Symfony\\Bundle\\AsseticBundle\\Twig\\AsseticExtension',
             'assetic.twig_formula_loader.class' => 'Assetic\\Extension\\Twig\\TwigFormulaLoader',
@@ -3902,6 +4037,60 @@ class appDevDebugProjectContainer extends Container
             'sensio_framework_extra.converter.doctrine.class' => 'Sensio\\Bundle\\FrameworkExtraBundle\\Request\\ParamConverter\\DoctrineParamConverter',
             'sensio_framework_extra.converter.datetime.class' => 'Sensio\\Bundle\\FrameworkExtraBundle\\Request\\ParamConverter\\DateTimeParamConverter',
             'sensio_framework_extra.view.listener.class' => 'Sensio\\Bundle\\FrameworkExtraBundle\\EventListener\\TemplateListener',
+            'guild.realm' => 'Stormreaver',
+            'stash.cache.class' => 'Tedivm\\StashBundle\\Service\\CacheService',
+            'stash.logger.class' => 'Tedivm\\StashBundle\\Service\\CacheLogger',
+            'stash.handler.class' => 'Stash\\Handler\\HandlerInterface',
+            'stash.factory.class' => 'Tedivm\\StashBundle\\Factory\\HandlerFactory',
+            'stash.adapter.doctrine.class' => 'Tedivm\\StashBundle\\Adapters\\DoctrineAdapter',
+            'stash.adapter.session.class' => 'Tedivm\\StashBundle\\Adapters\\SessionHandlerAdapter',
+            'stash.data_collector.class' => 'Tedivm\\StashBundle\\Collector\\CacheDataCollector',
+            'stash.logging' => true,
+            'stash.caches' => array(
+                'default' => 'stash.default_cache',
+            ),
+            'stash.caches.options' => array(
+                'default' => array(
+                    'handlers' => array(
+                        0 => 'FileSystem',
+                    ),
+                    'FileSystem' => array(
+                        'dirSplit' => 2,
+                        'path' => '/Users/daniel/Sites/cbb/app/cache/dev/stash',
+                        'filePermissions' => 432,
+                        'dirPermissions' => 504,
+                        'memKeyLimit' => 200,
+                        'keyHashFunction' => 'md5',
+                    ),
+                    'registerDoctrineAdapter' => false,
+                    'registerSessionHandler' => false,
+                    'inMemory' => true,
+                    'BlackHole' => array(
+
+                    ),
+                    'Ephemeral' => array(
+
+                    ),
+                    'Memcache' => array(
+                        'servers' => array(
+                            0 => array(
+                                'server' => '127.0.0.1',
+                                'port' => '11211',
+                            ),
+                        ),
+                    ),
+                    'SQLite' => array(
+                        'filePermissions' => 432,
+                        'dirPermissions' => 504,
+                        'busyTimeout' => 500,
+                        'nesting' => 0,
+                        'subhandler' => 'PDO',
+                        'version' => NULL,
+                        'path' => '/Users/daniel/Sites/cbb/app/cache/dev/stash',
+                    ),
+                ),
+            ),
+            'stash.default_cache' => 'default',
             'web_profiler.controller.profiler.class' => 'Symfony\\Bundle\\WebProfilerBundle\\Controller\\ProfilerController',
             'web_profiler.controller.router.class' => 'Symfony\\Bundle\\WebProfilerBundle\\Controller\\RouterController',
             'web_profiler.controller.exception.class' => 'Symfony\\Bundle\\WebProfilerBundle\\Controller\\ExceptionController',
@@ -3958,6 +4147,10 @@ class appDevDebugProjectContainer extends Container
                 'data_collector.doctrine' => array(
                     0 => 'db',
                     1 => 'DoctrineBundle:Collector:db',
+                ),
+                'data_collector.stash' => array(
+                    0 => 'stash',
+                    1 => 'TedivmStashBundle:Profiler:layout',
                 ),
             ),
             'console.command.ids' => array(
